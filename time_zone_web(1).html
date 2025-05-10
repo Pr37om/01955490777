@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Real Clock by Pritom Biswas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/e/e2/World_map_blank_without_borders.svg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    .credit {
+      font-size: 36px;
+      font-weight: bold;
+      background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+    .highlight {
+      font-size: 40px;
+      color: yellow;
+      font-weight: bold;
+    }
+    .highlight-number {
+      font-size: 24px;
+      color: #8B0000; /* Blood red color */
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 20px;
+      margin: 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      max-width: 480px;
+    }
+    h1 {
+      font-size: 28px;
+      color: #333;
+    }
+    p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    strong {
+      color: #444;
+    }
+    button {
+      margin-top: 8px;
+      padding: 8px 14px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .contact {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="credit">Real Clock by <span class="highlight" id="userName">Loading...</span></div>
+
+  <div class="card">
+    <h1>Your IP Information</h1>
+    <p><strong>IP Address:</strong> <span id="ip">Loading...</span></p>
+    <hr>
+    <p><strong>City:</strong> <span id="city">Loading...</span></p>
+    <p><strong>Region:</strong> <span id="region">Loading...</span></p>
+    <p><strong>Country:</strong> <span id="country">Loading...</span></p>
+    <hr>
+    <p><strong>Full Timezone:</strong> <span id="timezone-full">Loading...</span></p>
+    <p><strong>Mapped Timezone City:</strong> <span id="mapped-city">Loading...</span> <button onclick="copyMapped()">Copy</button></p>
+    <p><strong>Local Time:</strong> <span id="clock">--:--</span></p>
+  </div>
+
+  <div class="contact">
+    Admin Contact: <span class="highlight-number">01955490777</span>
+  </div>
+
+  <script>
+    const stateToCity = {
+      "Alabama": "Houston",
+      "Alaska": "Anchorage",
+      "Arizona": "Phoenix",
+      "Arkansas": "Little Rock",
+      "California": "Los Angeles",
+      "Colorado": "Denver",
+      "Connecticut": "Hartford",
+      "Delaware": "Wilmington",
+      "Florida": "Miami",
+      "Georgia": "Atlanta",
+      "Hawaii": "Honolulu",
+      "Idaho": "Boise",
+      "Illinois": "Chicago",
+      "Indiana": "Indianapolis",
+      "Iowa": "Des Moines",
+      "Kansas": "Wichita",
+      "Kentucky": "Louisville",
+      "Louisiana": "New Orleans",
+      "Maine": "Portland",
+      "Maryland": "Baltimore",
+      "Massachusetts": "Boston",
+      "Michigan": "Detroit",
+      "Minnesota": "Minneapolis",
+      "Mississippi": "Jackson",
+      "Missouri": "St. Louis",
+      "Montana": "Billings",
+      "Nebraska": "Omaha",
+      "Nevada": "Las Vegas",
+      "New Hampshire": "Manchester",
+      "New Jersey": "Newark",
+      "New Mexico": "Albuquerque",
+      "New York": "New York City",
+      "North Carolina": "Charlotte",
+      "North Dakota": "Fargo",
+      "Ohio": "Columbus",
+      "Oklahoma": "Oklahoma City",
+      "Oregon": "Portland",
+      "Pennsylvania": "Philadelphia",
+      "Rhode Island": "Providence",
+      "South Carolina": "Charleston",
+      "South Dakota": "Sioux Falls",
+      "Tennessee": "Nashville",
+      "Texas": "Dallas",
+      "Utah": "Salt Lake City",
+      "Vermont": "Burlington",
+      "Virginia": "Richmond",
+      "Washington": "Seattle",
+      "West Virginia": "Charleston",
+      "Wisconsin": "Milwaukee",
+      "Wyoming": "Cheyenne"
+    };
+
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        const { ip, city, region, country_name, timezone } = data;
+
+        const mappedCity = stateToCity[region] || city || "Unknown";
+
+        document.getElementById('ip').textContent = ip;
+        document.getElementById('city').textContent = city;
+        document.getElementById('region').textContent = region;
+        document.getElementById('country').textContent = country_name;
+        document.getElementById('timezone-full').textContent = timezone;
+        document.getElementById('mapped-city').textContent = mappedCity;
+
+        // Set dynamic user name (replace with "Pritom Biswas" or any other name)
+        document.getElementById('userName').textContent = "Pritom Biswas";
+
+        function updateTime() {
+          const now = new Date().toLocaleString("en-US", { timeZone: timezone });
+          document.getElementById('clock').textContent = now;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+      });
+
+    function copyMapped() {
+      const text = document.getElementById('mapped-city').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied: " + text);
+      });
+    }
+  </script>
+</body>
+</html>
