@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Real Clock by Pritom Biswas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Real Clock by PRITOM BISWAS</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,70 +14,69 @@
       text-align: center;
       color: white;
     }
+
     .credit {
-      font-size: 36px;
+      font-size: 48px;
       font-weight: bold;
       background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 20px;
     }
-    .highlight {
-      font-size: 40px;
-      color: yellow;
+
+    .highlight-number {
+      font-size: 26px;
+      color: #8B0000;
       font-weight: bold;
     }
-    .highlight-number {
-      font-size: 24px;
-      color: #8B0000; /* Blood red color */
-    }
+
     .card {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.85);
       padding: 20px;
       margin: 0 auto;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       max-width: 480px;
+      color: #000;
     }
+
     h1 {
       font-size: 28px;
-      color: #333;
     }
+
     p {
       font-size: 18px;
       margin: 10px 0;
     }
-    strong {
-      color: #444;
-    }
+
     button {
-      margin-top: 8px;
-      padding: 8px 14px;
+      margin-top: 6px;
+      padding: 6px 12px;
       background: #007bff;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
     }
+
     .contact {
       margin-top: 20px;
-      font-size: 16px;
-      color: #fff;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
 
-  <div class="credit">Real Clock by <span class="highlight" id="userName">Loading...</span></div>
+  <div class="credit">Real Clock by <span id="userName">PRITOM BISWAS</span></div>
 
   <div class="card">
     <h1>Your IP Information</h1>
     <p><strong>IP Address:</strong> <span id="ip">Loading...</span></p>
-    <hr>
+    <hr />
     <p><strong>City:</strong> <span id="city">Loading...</span></p>
     <p><strong>Region:</strong> <span id="region">Loading...</span></p>
     <p><strong>Country:</strong> <span id="country">Loading...</span></p>
-    <hr>
+    <hr />
     <p><strong>Full Timezone:</strong> <span id="timezone-full">Loading...</span></p>
     <p><strong>Mapped Timezone City:</strong> <span id="mapped-city">Loading...</span> <button onclick="copyMapped()">Copy</button></p>
     <p><strong>Local Time:</strong> <span id="clock">--:--</span></p>
@@ -142,6 +140,8 @@
       "Wyoming": "Cheyenne"
     };
 
+    document.getElementById('userName').textContent = "PRITOM BISWAS"; // Set instantly
+
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
       .then(data => {
@@ -156,9 +156,6 @@
         document.getElementById('timezone-full').textContent = timezone;
         document.getElementById('mapped-city').textContent = mappedCity;
 
-        // Set dynamic user name (replace with "Pritom Biswas" or any other name)
-        document.getElementById('userName').textContent = "Pritom Biswas";
-
         function updateTime() {
           const now = new Date().toLocaleString("en-US", { timeZone: timezone });
           document.getElementById('clock').textContent = now;
@@ -166,6 +163,15 @@
 
         updateTime();
         setInterval(updateTime, 1000);
+      })
+      .catch(() => {
+        document.getElementById('ip').textContent = "Unavailable";
+        document.getElementById('city').textContent = "Unavailable";
+        document.getElementById('region').textContent = "Unavailable";
+        document.getElementById('country').textContent = "Unavailable";
+        document.getElementById('timezone-full').textContent = "Unavailable";
+        document.getElementById('mapped-city').textContent = "Unavailable";
+        document.getElementById('clock').textContent = new Date().toLocaleTimeString();
       });
 
     function copyMapped() {
